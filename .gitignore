@@ -19,7 +19,12 @@ token.txt
 *.zip
 *.md
 
+*.bat
+*.ps1
+*.cmd
+
 !readme.md
 
+.venv/
 wxsdb/
 dismusic/
