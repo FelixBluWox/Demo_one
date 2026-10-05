@@ -305,10 +305,10 @@ async def conection_setup():
         cart = Shopping_cart(session["session_id"])
         Shopping_cart.instances[session["session_id"]] = cart
 
-        main_log.info(f"new session with id {session["session_id"]}")
+        main_log.info(f"new session with id {session['session_id']}")
         
     else:
-        main_log.debug(f"conection with session id {session["chat_id"]}")
+        main_log.debug(f"conection with session id {session['chat_id']}")
 
 @app.route("/api/chat", methods=["POST"])
 async def chat_endpoint():
