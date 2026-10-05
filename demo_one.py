@@ -307,7 +307,6 @@ class Chat_bot():
 async def conection_setup():
 
     main_log.debug(("REQUEST:", request.method, request.path))
-    main_log.debug(("TOKEN:", request.headers.get("Authorization")))
 
     if request.method == "OPTIONS":
         return "", 204
@@ -330,7 +329,7 @@ async def conection_setup():
         main_log.info(f"new session with id {session['session_id']}")
         
     else:
-        main_log.debug(f"conection with session id {session['chat_id']}")
+        main_log.debug(f"conection with session id {session['session_id']}")
 
 @app.route("/api/chat", methods=["POST"])
 async def chat_endpoint():
