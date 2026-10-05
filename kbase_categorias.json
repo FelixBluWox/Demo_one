@@ -1,0 +1,77 @@
+[
+    {
+        "categoria":"lapices_y_accesorios",
+        "contenidos":"sacapuntas, gomas de borrar, lapices, minas para portaminas",
+        "cantidad de elementos": 52
+    },
+    {
+        "categoria":"adhesivos_y_pegamentos",
+        "contenidos":"pegamento blanco, silicona liquida, barras de silicona, pistolas de silicona, pegamento en barra, cintas adhesivas, masking tape",
+        "cantidad de elementos": 34
+    },
+    {
+        "categoria":"marcadores",
+        "contenidos":"marcadores, plumones, rotuladores, plumones de pizzarron",
+        "cantidad de elementos": 70
+    },
+    {
+        "categoria":"colorear",
+        "contenidos":"lapices de colores, plumones para colorear, rotuladores de colores, crayolas, pasteles, acuarelas, lapiceros de color,  libros para colorear",
+        "cantidad de elementos": 76
+    },
+    {
+        "categoria":"boligrafos_y_correctores",
+        "contenidos":"plumas, plumas de gel, plumas borrables, lapices de gel, correctores, plumas de colores",
+        "cantidad de elementos": 98
+    },
+    {
+        "categoria":"Pinturas",
+        "contenidos":"pinturas acrilicas, pinturas especiales",
+        "cantidad de elementos": 16
+    },
+    {
+        "categoria":"cuadernos_y_carpetas",
+        "contenidos":"libretas, sobres, cuadernos, agendas, carpetas, organizadores, fundas, componentes para carpetas de anillas",
+        "cantidad de elementos": 46
+    },
+    {
+        "categoria":"folios_y_papeles_especiales",
+        "contenidos":"cartulinas, cartulinas de colores, hojas blancas, hojas de colores, blocs de papeles especiales, carton corrugado, fomi, papel crepe",
+        "cantidad de elementos": 73
+    },
+    {
+        "categoria":"accesorios_manualidades",
+        "contenidos":"para textiles, brillantina, plastilina, herramientas para moldear, elementos de poliestireno, kits de manualidades, insumos para manualidades, elementos de fomi, clips de madera, miscelanios para manualidades, tijeras de patron",
+        "cantidad de elementos": 51
+    },
+    {
+        "categoria":"Estampas_y_etiquetas",
+        "contenidos":"pegatinas, notas adhesivas, etiquetas adheribles, rollos adhesivos",
+        "cantidad de elementos": 19
+    },
+    {
+        "categoria":"pequeno_accesorio",
+        "contenidos":"clips, tachuelas, sujetapapeles, grapas, engrapadoras, desengrapadoras, gises, miscelaneos de officina, miscelaneos de escuela, perforadoras, tableros, tijeras",
+        "cantidad de elementos": 56
+    },
+    {
+        "categoria":"cartuchos_de_tinta",
+        "contenidos":"diversas tintas para varios modelos de impresoras",
+        "cantidad de elementos": 90
+    },
+    {
+        "categoria":"dibujo_tecnico",
+        "contenidos":"insuos para dibujo tecnico, insumos para dibujo artistico",
+        "cantidad de elementos": 20
+    },
+    {
+        "categoria":"maquinaria_de_oficina",
+        "contenidos":"maquinaria de oficina",
+        "cantidad de elementos": 8
+    },
+    {
+        "categoria":"mochilas",
+        "contenidos":"mochilas",
+        "cantidad de elementos": 5
+    }
+]
