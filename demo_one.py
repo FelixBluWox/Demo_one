@@ -159,7 +159,7 @@ def consult_category(category):
     if res is None:
         return {"error": "esa categoria no existe"}
 
-    return json.dumps({
+    return str({
         "categoria": category,
         "productos": [{"iid": entry.iid, "producto":entry.name} for entry in res]
     })
@@ -174,7 +174,7 @@ def check_price(product_iid):
     if res is None:
         return {"error": "ese producto no existe"}
 
-    return json.dumps({
+    return str({
         "product": res.name,
         "price": float(res.price)
     })
@@ -189,7 +189,7 @@ def check_stock(product_iid):
     
     main_log.debug(f"stock of {product_iid}: {int(res.stock)} units remaining")
 
-    return json.dumps({
+    return str({
         "product": res.name,
         "available": int(res.stock)
     })
@@ -283,7 +283,7 @@ class Chat_bot():
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
 
-        return json.dumps({
+        return str({
             "confirmation": f"product {res.iid} added to the cart",
             "items in cart": len(cart.items),
             "total value": cart.total
@@ -332,6 +332,9 @@ async def chat_endpoint():
         Chat_bot.instances[session["session_id"]] = chatbot
     else:
         chatbot = Chat_bot.instances[session["session_id"]]
+    
+
+    main_log.debug(f"incoming message:\n {data}\n {message}")
 
 
 
