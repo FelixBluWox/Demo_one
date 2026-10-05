@@ -8,11 +8,9 @@ from os import getenv
 from database import Database, Products
 from asyncio import to_thread
 import requests, json, secrets
-
-
-
 from dataclasses import dataclass
 from typing import ClassVar, Dict
+from waitress import serve
 
 
 main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX)
@@ -370,5 +368,6 @@ async def get_stock():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    serve(app, host="0.0.0.0", port=8080)
+
 
