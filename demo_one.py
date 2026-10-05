@@ -13,7 +13,6 @@ from typing import ClassVar, Dict
 from waitress import serve
 from flask_cors import CORS
 
-CORS(app)
 
 main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX, std_handler=stdout_debug_handler)
 
@@ -27,6 +26,8 @@ gpt_client = OpenAI(api_key=token_sc)
 db = Database()
 
 app = Flask(__name__)
+CORS(app)
+
 app.secret_key = getenv("flask_secret")
 
 
