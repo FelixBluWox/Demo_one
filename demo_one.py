@@ -18,6 +18,7 @@ main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX)
 load_dotenv('./secrets.env')
 token_sc = getenv("openai_key_sc")
 token_fx = getenv("openai_key_fx")
+api_token = getenv("self_token")
 
 gpt_client = OpenAI(api_key=token_sc)
 
@@ -297,6 +298,16 @@ class Chat_bot():
 
 @app.before_request
 async def conection_setup():
+
+    token = request.headers.get("X-api-token")
+
+    if token != f"Bearer {api_token}":
+        return jsonify({
+            "error": "Unauthorized"
+        }), 401
+
+
+
     if "session_id" not in session:
         session["session_id"] = secrets.token_urlsafe(16)
 
