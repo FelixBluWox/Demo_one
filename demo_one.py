@@ -11,7 +11,9 @@ import requests, json, secrets
 from dataclasses import dataclass
 from typing import ClassVar, Dict
 from waitress import serve
+from flask_cors import CORS
 
+CORS(app)
 
 main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX, std_handler=stdout_debug_handler)
 
@@ -298,6 +300,12 @@ class Chat_bot():
 
 @app.before_request
 async def conection_setup():
+
+    main_log.debug(("REQUEST:", request.method, request.path))
+    main_log.debug(("TOKEN:", request.headers.get("X-api-token")))
+
+    if request.method == "OPTIONS":
+        return "", 204
 
     token = request.headers.get("X-api-token")
 
