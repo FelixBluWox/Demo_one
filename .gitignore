@@ -28,3 +28,5 @@ token.txt
 .venv/
 wxsdb/
 dismusic/
+thumb/
+data/
