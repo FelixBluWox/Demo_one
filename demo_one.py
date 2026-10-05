@@ -1,4 +1,4 @@
-from utils import Wox_log, error_form
+from utils import Wox_log, error_form, stdout_debug_handler
 from sqlalchemy import select
 from openai import OpenAI 
 from flask import Flask, request, jsonify, session
@@ -13,7 +13,7 @@ from typing import ClassVar, Dict
 from waitress import serve
 
 
-main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX)
+main_log = Wox_log('main', color=Fore.LIGHTCYAN_EX, std_handler=stdout_debug_handler)
 
 load_dotenv('./secrets.env')
 token_sc = getenv("openai_key_sc")

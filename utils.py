@@ -50,6 +50,10 @@ stdout_warn_handler = logging.StreamHandler(sys.stdout)
 stdout_warn_handler.setLevel(logging.WARN)
 stdout_warn_handler.setFormatter(formatter)
 
+stdout_debug_handler = logging.StreamHandler(sys.stdout)
+stdout_debug_handler.setLevel(logging.DEBUG)
+stdout_debug_handler.setFormatter(formatter)
+
 file_debug_handler = logging.FileHandler(filename='./logs/debug.log', encoding='utf-8', mode='w')
 file_debug_handler.setLevel(logging.DEBUG)
 file_debug_handler.setFormatter(formatter)
