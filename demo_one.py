@@ -26,7 +26,11 @@ gpt_client = OpenAI(api_key=token_sc)
 db = Database()
 
 app = Flask(__name__)
-CORS(app)
+CORS(
+    app,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
 
 app.secret_key = getenv("flask_secret")
 
@@ -303,12 +307,12 @@ class Chat_bot():
 async def conection_setup():
 
     main_log.debug(("REQUEST:", request.method, request.path))
-    main_log.debug(("TOKEN:", request.headers.get("X-api-token")))
+    main_log.debug(("TOKEN:", request.headers.get("Authorization")))
 
     if request.method == "OPTIONS":
         return "", 204
 
-    token = request.headers.get("X-api-token")
+    token = request.headers.get("Authorization")
 
     if token != f"Bearer {api_token}":
         return jsonify({
