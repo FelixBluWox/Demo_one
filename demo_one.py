@@ -340,6 +340,7 @@ async def conection_setup():
 def add_cors(response):
     
     origin = request.headers.get("Origin")
+    response.headers["skip_zrok_interstitial"] = "true"
     response.headers["Access-Control-Allow-Origin"] = origin
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
