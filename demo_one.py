@@ -311,8 +311,8 @@ async def conection_setup():
 
     main_log.debug(("REQUEST:", request.method, request.path))
 
-    if request.method == "OPTIONS":
-        return "", 204
+    #if request.method == "OPTIONS":
+    #    return "", 204
 
     token = request.headers.get("Authorization")
 
