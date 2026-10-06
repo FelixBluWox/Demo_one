@@ -401,7 +401,7 @@ async def get_stock():
     return await to_thread(check_stock, p_id)
 
 @app.route("/api/test", methods=["POST"])
-async def get_stock():
+async def test():
     return jsonify({
                 "response": "success"
             }), 200
