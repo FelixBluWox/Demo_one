@@ -400,6 +400,12 @@ async def get_stock():
     p_id = request.args.get("id", "Flask")
     return await to_thread(check_stock, p_id)
 
+@app.route("/api/test", methods=["POST"])
+async def get_stock():
+    return jsonify({
+                "response": "success"
+            }), 200
+
 
 
 
