@@ -317,6 +317,7 @@ async def conection_setup():
     token = request.headers.get("Authorization")
 
     if token != f"Bearer {api_token}":
+        main_log.debug(("unauthorized", token))
         return jsonify({
             "error": "Unauthorized"
         }), 401
