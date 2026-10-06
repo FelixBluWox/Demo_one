@@ -343,6 +343,8 @@ def add_cors(response):
     response.headers["Access-Control-Allow-Origin"] = origin
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+
+    main_log.debug(f"respuesta {response}")
     return response
 
 @app.route("/api/chat", methods=["POST"])
