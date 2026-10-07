@@ -476,7 +476,7 @@ async def get_all_products():
 async def get_cart():
 
     main_log.debug(
-            [(id, [(it[0], it[2]) for it in Shopping_cart.instances[id].items]) for id in Shopping_cart.instances]
+            [[id, [(it[0], it[2]) for it in Shopping_cart.instances[id].items]] for id in Shopping_cart.instances]
         )
 
     user_cart = Shopping_cart.instances[session["session_id"]]
@@ -497,7 +497,7 @@ async def get_cart():
         ]
     }
 
-    main_log.debug((data["total"], [val[:5] for val in data["items"]]))
+    main_log.debug([data["total"], [val[:5] for val in data["items"]]])
 
     return jsonify(data)
 
