@@ -233,7 +233,7 @@ class Shopping_cart:
     instances: ClassVar[Dict[str, 'Shopping_cart']] = {}
     
     id: str
-    items: list = None
+    items: list
     
     @property
     def total():
@@ -352,7 +352,7 @@ async def conection_setup():
     if "session_id" not in session:
         session["session_id"] = secrets.token_urlsafe(16)
 
-        cart = Shopping_cart(session["session_id"])
+        cart = Shopping_cart(session["session_id"], [])
         Shopping_cart.instances[session["session_id"]] = cart
 
         main_log.info(f"new session with id {session['session_id']}")
