@@ -289,7 +289,7 @@ class Chat_bot():
             outputs.append({
                 "type": "function_call_output",
                 "call_id": func_call.call_id,
-                "output": self.functions[func_call.name](func_call.arguments)
+                "output": self.functions[func_call.name](json.loads(func_call.arguments))
             })
 
         return self.message(outputs)
