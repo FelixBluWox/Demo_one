@@ -475,12 +475,12 @@ async def get_cart():
         "total": user_cart.total,
         "items": [
             {   
-                "iid": user_cart[0],
-                "nombre": user_cart[2],
-                "precio": user_cart[3],
-                "thumb": user_cart[6]
+                "iid": product[0],
+                "nombre": product[2],
+                "precio": product[3],
+                "thumb": product[6]
             }
-            for product in user_cart
+            for product in user_cart.list
         ]
     }
 
