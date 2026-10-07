@@ -314,7 +314,7 @@ class Chat_bot():
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
 
-        main_log.debug(f"cart {cart.items}")
+        main_log.debug(f"cart {cart.items[:-1]}")
 
         return str({
             "confirmation": f"product {res.iid} added to the cart",
