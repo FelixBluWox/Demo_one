@@ -480,7 +480,7 @@ async def get_cart():
                 "precio": product[3],
                 "thumb": product[6]
             }
-            for product in user_cart.list
+            for product in user_cart.items
         ]
     }
 
