@@ -456,7 +456,7 @@ async def get_all_products():
 
     data = [
         {
-            "iid": user_cart[0],
+            "iid": product.iid,
             "nombre": product.name,
             "precio": product.price,
             "thumb": json.loads(product.thumb)["file"]
