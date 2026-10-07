@@ -273,7 +273,7 @@ class Chat_bot():
 
             self.func_queue += [item for item in response.output if item.type == "function_call"]
         
-        main_log.debug(f"bot {self.id}:     {response}")
+        main_log.debug(f"bot {self.id}:     {response.output_text}")
         return response
     
     def process_funcs(self):
