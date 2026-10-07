@@ -305,7 +305,7 @@ class Chat_bot():
 
         stmt = select(Products).where(Products.iid == product_iid)
 
-        res = db.scal(stmt).all()
+        res = db.scal(stmt).one()
 
         if res is None:
             return {"error": "ese producto no existe"}
