@@ -441,7 +441,7 @@ async def debug_endpoint():
 @app.route("/api/products/all", methods=["GET"])
 async def get_all_products():
 
-    stmt = select(Product)
+    stmt = select(Products)
 
     res = db.scal(stmt).all()
 
@@ -454,9 +454,7 @@ async def get_all_products():
         for product in res
     ]
 
-    return jsonify({
-        "products": data
-    })
+    return jsonify(data)
 
 @app.route("/api/products/price", methods=["GET"])
 async def get_price():
