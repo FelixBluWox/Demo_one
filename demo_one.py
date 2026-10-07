@@ -169,10 +169,13 @@ def consult_category(category):
     if res is None:
         return {"error": "esa categoria no existe"}
 
-    return str({
+    r = str({
         "categoria": category,
         "productos": [{"iid": entry.iid, "producto":entry.name} for entry in res]
     })
+    main_log.debug(f"result {r}")
+
+    return r
 
 def check_price(product_iid):
     main_log.debug(f"checking price of {product_iid}")
@@ -183,11 +186,14 @@ def check_price(product_iid):
 
     if res is None:
         return {"error": "ese producto no existe"}
-
-    return str({
+    
+    r = str({
         "product": res.name,
         "price": float(res.price)
     })
+    main_log.debug(f"result {r}")
+
+    return r
 
 def check_stock(product_iid):
     stmt = select(Products).where(Products.iid == product_iid)
@@ -199,10 +205,13 @@ def check_stock(product_iid):
     
     main_log.debug(f"stock of {product_iid}: {int(res.stock)} units remaining")
 
-    return str({
+    r = str({
         "product": res.name,
         "available": int(res.stock)
     })
+    main_log.debug(f"result {r}")
+    
+    return r
 
 
 
@@ -284,7 +293,7 @@ class Chat_bot():
 
         stmt = select(Products).where(Products.iid == product_iid)
 
-        res = db.scal(stmt)
+        res = db.scal(stmt).all()
 
         if res is None:
             return {"error": "ese producto no existe"}
@@ -292,12 +301,15 @@ class Chat_bot():
         cart = Shopping_cart.instances[self.id]
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
+        
+        main_log.debug(f"cart {cart.items}")
 
         return str({
             "confirmation": f"product {res.iid} added to the cart",
             "items in cart": len(cart.items),
             "total value": cart.total
         })
+
     
 
 
