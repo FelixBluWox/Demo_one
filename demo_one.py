@@ -97,7 +97,7 @@ chat_bot_tools = [
                     "description": "Nombre textual de la tabla en la base de datos que se desea consultar."
                 }
             },
-            "required": ["categoria"],
+            "required": ["category"],
             "additionalProperties": False
         },
         "strict": True
@@ -114,7 +114,7 @@ chat_bot_tools = [
                     "description": "iid del producto a consultar."
                 }
             },
-            "required": ["categoria"],
+            "required": ["product_iid"],
             "additionalProperties": False
         },
         "strict": True
@@ -131,7 +131,7 @@ chat_bot_tools = [
                     "description": "iid del producto a consultar."
                 }
             },
-            "required": ["categoria"],
+            "required": ["product_iid"],
             "additionalProperties": False
         },
         "strict": True
@@ -148,7 +148,7 @@ chat_bot_tools = [
                     "description": "iide del producto a agregar."
                 }
             },
-            "required": ["categoria"],
+            "required": ["product_iid"],
             "additionalProperties": False
         },
         "strict": True
