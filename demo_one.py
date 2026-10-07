@@ -472,6 +472,7 @@ async def get_cart():
     user_cart = Shopping_cart.instances[session["session_id"]]
 
     main_log.debug(session["session_id"])
+    main_log.debug([val[:5] for val in user_cart.items])
 
     data = {
         "total": user_cart.total,
@@ -485,6 +486,8 @@ async def get_cart():
             for product in user_cart.items
         ]
     }
+
+    main_log.debug(data["total"], [val[:5] for val in data["items"]])
 
     return jsonify(data)
 
