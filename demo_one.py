@@ -88,7 +88,7 @@ chat_bot_tools = [
         "parameters": {
             "type": "object",
             "properties": {
-                "categoria": {
+                "category": {
                     "type": "string",
                     "description": "Nombre de la categoría que se desea consultar."
                 }
@@ -105,7 +105,7 @@ chat_bot_tools = [
         "parameters": {
             "type": "object",
             "properties": {
-                "categoria": {
+                "product_iid": {
                     "type": "integer",
                     "description": "iid del producto a consultar."
                 }
@@ -122,7 +122,7 @@ chat_bot_tools = [
         "parameters": {
             "type": "object",
             "properties": {
-                "categoria": {
+                "product_iid": {
                     "type": "integer",
                     "description": "iid del producto a consultar."
                 }
@@ -139,7 +139,7 @@ chat_bot_tools = [
         "parameters": {
             "type": "object",
             "properties": {
-                "categoria": {
+                "product_iid": {
                     "type": "integer",
                     "description": "iide del producto a agregar."
                 }
@@ -160,7 +160,7 @@ chat_bot_tools = [
 
 
 
-def consult_category(category):
+def consult_category(category=None):
     main_log.debug(f"fetching items of {category}")
 
     stmt = select(Products).where(Products.category == category)
@@ -178,7 +178,7 @@ def consult_category(category):
 
     return r
 
-def check_price(product_iid):
+def check_price(product_iid=None):
     main_log.debug(f"checking price of {product_iid}")
 
     stmt = select(Products).where(Products.iid == product_iid)
@@ -196,7 +196,7 @@ def check_price(product_iid):
 
     return r
 
-def check_stock(product_iid):
+def check_stock(product_iid=None):
     stmt = select(Products).where(Products.iid == product_iid)
 
     res = db.scal(stmt).one()
@@ -245,10 +245,10 @@ class Chat_bot():
         self.initialized = False
         self.func_queue = []
         self.functions = {
-            "consult_category": lambda arg: consult_category(arg),
-            "check_price": lambda arg: check_price(arg),
-            "check_stock": lambda arg: check_stock(arg),
-            "add_to_cart": lambda arg: self.add_to_cart(arg)
+            "consult_category": lambda arg: consult_category(**arg),
+            "check_price": lambda arg: check_price(**arg),
+            "check_stock": lambda arg: check_stock(**arg),
+            "add_to_cart": lambda arg: self.add_to_cart(**arg)
         }
 
     def message(self, input):
@@ -289,7 +289,7 @@ class Chat_bot():
 
         return self.message(outputs)
 
-    def add_to_cart(self, product_iid):
+    def add_to_cart(self, product_iid=None):
         main_log.debug(f"adding {product_iid} to cart")
 
         stmt = select(Products).where(Products.iid == product_iid)
