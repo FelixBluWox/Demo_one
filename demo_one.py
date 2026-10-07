@@ -449,7 +449,7 @@ async def get_all_products():
         {
             "nombre": product.name,
             "precio": product.price,
-            "thumb": product.thumb
+            "thumb": dict(product.thumb)["file"]
         }
         for product in res
     ]
