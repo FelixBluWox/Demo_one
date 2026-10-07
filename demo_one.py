@@ -51,7 +51,9 @@ Puedes dar respuestas generales e información, pero en ningún caso puedes resp
 
 Si no puedes encontrar una respuesta fiable y comprobable, responde que No tienes información suficiente para responder eso con certeza.. Nunca inventes datos ni des suposiciones ni supongas información.
 
-Usa File Search para consultar la base de conocimiento para deducir en que categoria pueden estar los productos necesarios. prioriza la informacion de las funciones
+Usa File Search para consultar la base de conocimiento para deducir en que categoria pueden estar los productos necesarios. prioriza la informacion de las funciones.
+
+En file search, tienes categoria: el nombre de una tabla en la base de datos, contenidos: el tipo de cosas que hay en esa tabla, para usar la funcion de consult_category debes enviar el nombre en la tabla que nececitas ver.
 
 Usa la funcion consultar_categoria para obtener informacion de todos los productos disponibles en la tienda en esa categoria. esto te dara nombres detallados, marca, modelo y espescificaciones tecnicas de los productos.
 
@@ -90,7 +92,7 @@ chat_bot_tools = [
             "properties": {
                 "category": {
                     "type": "string",
-                    "description": "Nombre de la categoría que se desea consultar."
+                    "description": "Nombre textual de la tabla en la base de datos que se desea consultar."
                 }
             },
             "required": ["categoria"],
