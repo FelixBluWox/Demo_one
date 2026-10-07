@@ -20,6 +20,7 @@ load_dotenv('./secrets.env')
 token_sc = getenv("openai_key_sc")
 token_fx = getenv("openai_key_fx")
 api_token = getenv("self_token")
+mod_token = getenv("admon_token")
 
 gpt_client = OpenAI(api_key=token_sc)
 
@@ -301,7 +302,7 @@ class Chat_bot():
         cart = Shopping_cart.instances[self.id]
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
-        
+
         main_log.debug(f"cart {cart.items}")
 
         return str({
@@ -364,6 +365,46 @@ def add_cors(response):
 async def chat_endpoint():
     data = request.get_json()
     message = [{"role": "user", "content": data.get("message")}]
+
+    if not message:
+        return jsonify({"error": "No message provided"}), 400
+
+    if session["session_id"] not in Chat_bot.instances:
+        chatbot = Chat_bot(session["session_id"])
+        Chat_bot.instances[session["session_id"]] = chatbot
+    else:
+        chatbot = Chat_bot.instances[session["session_id"]]
+    
+
+    main_log.debug(f"incoming message:\n {data}\n {message}")
+
+
+
+    response = await to_thread(chatbot.message, message)
+    if len(chatbot.func_queue) > 0:
+        response = await to_thread(chatbot.process_funcs)
+    
+
+    return jsonify({
+        "response": response.output_text
+    })
+
+
+
+@app.route("/api/debug", methods=["POST"])
+async def debug_endpoint():
+
+    token = request.headers.get("X-api-token")
+
+    if request.method == "POST":
+        if token != f"{mod_token}":
+            main_log.debug(("unauthorized", token))
+            return jsonify({
+                "error": "Unauthorized"
+            }), 401
+
+    data = request.get_json()
+    message = [{"role": "developer", "content": data.get("message")}]
 
     if not message:
         return jsonify({"error": "No message provided"}), 400
