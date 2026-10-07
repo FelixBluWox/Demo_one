@@ -183,7 +183,7 @@ def check_price(product_iid):
 
     stmt = select(Products).where(Products.iid == product_iid)
 
-    res = db.scal(stmt)
+    res = db.scal(stmt).one()
 
     if res is None:
         return {"error": "ese producto no existe"}
@@ -199,7 +199,7 @@ def check_price(product_iid):
 def check_stock(product_iid):
     stmt = select(Products).where(Products.iid == product_iid)
 
-    res = db.scal(stmt)
+    res = db.scal(stmt).one()
 
     if res is None:
         return {"error": "ese producto no existe"}
