@@ -236,13 +236,13 @@ class Shopping_cart:
     items: list
     
     @property
-    def total():
+    def total(self):
         total_price = 0
         for item in self.items:
             total_price += item[3]
         return total_price
     
-    def empty():
+    def empty(self):
         self.list = []
 
 
