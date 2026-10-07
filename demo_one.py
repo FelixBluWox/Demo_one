@@ -335,9 +335,6 @@ async def conection_setup():
 
     main_log.debug(("REQUEST:", request.method, request.path))
 
-    #if request.method == "OPTIONS":
-    #    return "", 204
-
     token = request.headers.get("Authorization")
 
     if request.method == "POST":
@@ -347,9 +344,17 @@ async def conection_setup():
                 "error": "Unauthorized"
             }), 401
 
+    session_id = request.args.get("sid")
+    
+    if session_id:
+        session["session_id"] = session_id
 
+        cart = Shopping_cart(session["session_id"], [])
+        Shopping_cart.instances[session["session_id"]] = cart
 
-    if "session_id" not in session:
+        main_log.info(f"relay session with id {session['session_id']}")
+
+    elif "session_id" not in session:
         session["session_id"] = secrets.token_urlsafe(16)
 
         cart = Shopping_cart(session["session_id"], [])
@@ -451,12 +456,33 @@ async def get_all_products():
 
     data = [
         {
+            "iid": user_cart[0],
             "nombre": product.name,
             "precio": product.price,
             "thumb": json.loads(product.thumb)["file"]
         }
         for product in res
     ]
+
+    return jsonify(data)
+
+@app.route("/api/products/cart", methods=["GET"])
+async def get_cart():
+
+    user_cart = Shopping_cart.instances[session["session_id"]]
+
+    data = {
+        "total": user_cart.total,
+        "items": [
+            {   
+                "iid": user_cart[0],
+                "nombre": user_cart[2],
+                "precio": user_cart[3],
+                "thumb": user_cart[6]
+            }
+            for product in res
+        ]
+    }
 
     return jsonify(data)
 
