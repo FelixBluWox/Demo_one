@@ -55,6 +55,8 @@ Usa File Search para consultar la base de conocimiento para deducir en que categ
 
 En file search, tienes categoria: el nombre de una tabla en la base de datos, contenidos: el tipo de cosas que hay en esa tabla, para usar la funcion de consult_category debes enviar el nombre en la tabla que nececitas ver.
 
+NO ALUCINES CATEGORIAS, el nombre de las categorias que tienes en el file search es ese como esta textual mente
+
 Usa la funcion consultar_categoria para obtener informacion de todos los productos disponibles en la tienda en esa categoria. esto te dara nombres detallados, marca, modelo y espescificaciones tecnicas de los productos.
 
 Cuando ya hayas identificado los productos que el cliente va a comprar añadelos al carrito.
@@ -283,7 +285,7 @@ class Chat_bot():
         outputs = []
         for i in range(len(self.func_queue)):
             func_call = self.func_queue.pop()
-            main_log.debug(f"{func_call.name} < {func_call.arguments} : {type(func_call.arguments)}")
+            main_log.debug(f"corriendo funcion {func_call.name} < {func_call.arguments} : {type(func_call.arguments)}")
             outputs.append({
                 "type": "function_call_output",
                 "call_id": func_call.call_id,
