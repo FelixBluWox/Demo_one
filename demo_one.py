@@ -247,10 +247,10 @@ class Chat_bot():
         self.initialized = False
         self.func_queue = []
         self.functions = {
-            "consult_category": lambda arg: consult_category(**arg),
-            "check_price": lambda arg: check_price(**arg),
-            "check_stock": lambda arg: check_stock(**arg),
-            "add_to_cart": lambda arg: self.add_to_cart(**arg)
+            "consult_category": lambda args: consult_category(**args),
+            "check_price": lambda args: check_price(**args),
+            "check_stock": lambda args: check_stock(**args),
+            "add_to_cart": lambda args: self.add_to_cart(**args)
         }
 
     def message(self, input):
@@ -283,6 +283,7 @@ class Chat_bot():
         outputs = []
         for i in range(len(self.func_queue)):
             func_call = self.func_queue.pop()
+            main_log.debug(f"{func_call.name} < {func_call.arguments} : {type(func_call.arguments)}")
             outputs.append({
                 "type": "function_call_output",
                 "call_id": func_call.call_id,
