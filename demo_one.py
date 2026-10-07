@@ -314,7 +314,7 @@ class Chat_bot():
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
 
-        main_log.debug(f"cart {cart.items[:-1]}")
+        main_log.debug(f"cart {cart.items[:5]}")
 
         return str({
             "confirmation": f"product {res.iid} added to the cart",
@@ -470,6 +470,9 @@ async def get_all_products():
 async def get_cart():
 
     user_cart = Shopping_cart.instances[session["session_id"]]
+
+    main_log.debug(Shopping_cart.instances)
+    main_log.debug(user_cart)
 
     data = {
         "total": user_cart.total,
