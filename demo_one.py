@@ -446,7 +446,11 @@ async def get_all_products():
     res = db.scal(stmt).all()
 
     data = [
-        [product.id, product.name, product.price,  product.category, product.thumb]
+        {
+            "nombre": product.name,
+            "precio": product.price,
+            "thumb": product.thumb
+        }
         for product in res
     ]
 
