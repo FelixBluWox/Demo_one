@@ -487,7 +487,7 @@ async def get_cart():
         ]
     }
 
-    main_log.debug(data["total"], [val[:5] for val in data["items"]])
+    main_log.debug((data["total"], [val[:5] for val in data["items"]]))
 
     return jsonify(data)
 
