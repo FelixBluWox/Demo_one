@@ -314,7 +314,11 @@ class Chat_bot():
 
         cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
 
-        main_log.debug(f"cart {[[itm[0], itm[2]] for itm in cart.items]}")
+        main_log.debug(f"cart {self.id} {[[itm[0], itm[2]] for itm in cart.items]}")
+
+        main_log.debug(
+            [(id, [(it[0], it[2]) for it in Shopping_cart.instances[id].items]) for id in Shopping_cart.instances]
+        )
 
         return str({
             "confirmation": f"product {res.iid} added to the cart",
@@ -468,6 +472,10 @@ async def get_all_products():
 
 @app.route("/api/products/cart", methods=["GET"])
 async def get_cart():
+
+    main_log.debug(
+            [(id, [(it[0], it[2]) for it in Shopping_cart.instances[id].items]) for id in Shopping_cart.instances]
+        )
 
     user_cart = Shopping_cart.instances[session["session_id"]]
 
