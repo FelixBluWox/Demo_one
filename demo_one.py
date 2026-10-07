@@ -445,13 +445,11 @@ async def get_all_products():
 
     res = db.scal(stmt).all()
 
-    print(res[0].thumb, type(res[0].thumb))
-
     data = [
         {
             "nombre": product.name,
             "precio": product.price,
-            "thumb": dict(product.thumb)["file"]
+            "thumb": json.loads(product.thumb)["file"]
         }
         for product in res
     ]
