@@ -232,7 +232,7 @@ class Shopping_cart():
     instances = {}
     def __init__(self, id, items=[]):
         self.id = id
-        self.list = list
+        self.items = list
     
     @property
     def total(self):
