@@ -353,8 +353,10 @@ async def conection_setup():
     if session_id:
         session["session_id"] = session_id
 
-        cart = Shopping_cart(session["session_id"], [])
-        Shopping_cart.instances[session["session_id"]] = cart
+        
+        if session["session_id"] not in Shopping_cart.instances:
+            cart = Shopping_cart(session["session_id"], [])
+            Shopping_cart.instances[session["session_id"]] = cart
 
         main_log.info(f"relay session with id {session['session_id']}")
 
