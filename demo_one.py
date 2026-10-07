@@ -228,12 +228,11 @@ def check_stock(product_iid=None):
 
 
 
-@dataclass
-class Shopping_cart:
-    instances: ClassVar[Dict[str, 'Shopping_cart']] = {}
-    
-    id: str
-    items: list
+class Shopping_cart():
+    instances = {}
+    def __init__(self, id, items=[]):
+        self.id = id
+        self.list = list
     
     @property
     def total(self):
@@ -244,6 +243,7 @@ class Shopping_cart:
     
     def empty(self):
         self.list = []
+
 
 
 
