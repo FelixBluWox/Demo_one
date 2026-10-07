@@ -445,7 +445,7 @@ async def get_all_products():
 
     res = db.scal(stmt).all()
 
-    print(product.thumb, type(product.thumb))
+    print(res[0].thumb, type(res[0].thumb))
 
     data = [
         {
