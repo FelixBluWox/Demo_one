@@ -88,6 +88,10 @@ chat_bot_tools = [
         "vector_store_ids": ['vs_6ac2e6e32c04819196032500106c745c']
     },
     {
+        "type": "file_search",
+        "vector_store_ids": ['vs_6ac6b7bf2cec8191970e4e35c06a6dcf']
+    },
+    {
         "type": "function",
         "name": "consult_category",
         "description": "Consulta los productos disponibles de una categoría.",
