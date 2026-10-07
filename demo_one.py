@@ -471,8 +471,7 @@ async def get_cart():
 
     user_cart = Shopping_cart.instances[session["session_id"]]
 
-    main_log.debug(Shopping_cart.instances)
-    main_log.debug(user_cart)
+    main_log.debug(session["session_id"])
 
     data = {
         "total": user_cart.total,
