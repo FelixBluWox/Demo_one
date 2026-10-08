@@ -119,7 +119,7 @@ chat_bot_tools = [
             "type": "object",
             "properties": {
                 "category_id": {
-                    "type": "string",
+                    "type": "integer",
                     "description": "id del grupo se desea consultar."
                 }
             },
