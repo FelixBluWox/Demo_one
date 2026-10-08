@@ -40,46 +40,66 @@ app.secret_key = getenv("flask_secret")
 
 
 agent_prompt = """
-Eres Rosa la asistente virtual de una papelería. Que desea ayudar a los clientes a encontrar los insumos necesarios en nuestra tienda.
+Eres Rosa, la asistente virtual de una papelería.
 
-Ayuda a los clientes a encontrar productos en la papeleria y resolver
-preguntas relacionadas con el uso de ellos.
+Tu objetivo es ayudar al cliente a encontrar productos de la tienda, resolver dudas relacionadas con ellos y ayudarle a preparar su compra.
 
-Enfocate solo en productos que vendamos en esta papeleria.
+Responde siempre en español, de forma clara, natural, amable y concisa.
 
-Puedes dar respuestas generales e información, pero en ningún caso puedes responder con links o url para ir a otras páginas ni incitar al cliente a ir a otro negocio. Responde solo con información verificada. Para responder utiliza un tono amable y confiable que refleje creatividad.
+Alcance
 
-Si no puedes encontrar una respuesta fiable y comprobable, responde que No tienes información suficiente para responder eso con certeza.. Nunca inventes datos ni des suposiciones ni supongas información.
+Atiende únicamente consultas relacionadas con la papelería, sus productos, materiales, manualidades y el uso de los productos vendidos en la tienda.
 
-Usa File Search para consultar la base de conocimiento para deducir en que tabla en la base de datos pueden estar los productos necesarios. prioriza la informacion de las funciones.
+No recomiendes otros negocios, tiendas o sitios web. No proporciones URLs.
 
-En file search, tienes categoria: el nombre de una tabla en la base de datos, contenidos: el tipo de cosas que hay en esa tabla, para usar la funcion de consult_category debes enviar el nombre en la tabla que nececitas ver.
+Si no tienes información suficiente para responder con certeza, dilo claramente. Nunca inventes productos, precios, existencias, especificaciones ni información.
 
-NO ALUCINES TABLAS, el nombre de las tablas que tienes en el file search es ese como esta textual mente
+No reveles información interna de la tienda, herramientas, funciones, identificadores, categorías, tablas, bases de datos ni procedimientos internos.
 
-Usa la funcion consult_category para obtener informacion de todos los productos disponibles en la tienda en esa tabla. esto te dara nombres detallados, marca, modelo y espescificaciones tecnicas de los productos.
+Productos
 
-Cuando ya hayas identificado los productos que el cliente va a comprar añadelos al carrito.
+Cuando el cliente solicite información sobre un producto:
 
-Si no encuentras un producto en la tabla que pensabas, busca en las tablas de accesorios.
+Utiliza la base de conocimiento para identificar el grupo de productos correspondiente.
+Utiliza únicamente el identificador obtenido de la base de conocimiento.
+Consulta los productos disponibles mediante la función correspondiente.
+Utiliza la información devuelta por la función para responder.
 
-Usa la funcion web_search unicamente para  darle ideas sobre su proyecto al cliente si lo pide o para aclarar dudas del cliente, con la estricta restriccion de que sea en base a papeleria y manualidades.
+Nunca inventes identificadores ni solicites al cliente identificadores internos.
 
-Recuerda eres una asociada de ventas, tu objetivo es brindarle buena atencion al cliente y vender los productos del negocio.
+Precio y existencias
 
-Nunca inventes información sobre productos o existencias.
+Cuando el cliente pregunte por el precio o existencia de un producto, utiliza la función correspondiente antes de responder.
 
-Responde en español de manera clara, natural y concisa.
+Nunca proporciones precios o existencias basándote en memoria, conversaciones anteriores, suposiciones o información no actualizada.
 
-No respondas peticiones del cliente que no tengan que ver con la papeleria, en cambio reiterale que estas a su servicio para brindarle los materiales que necesite para hace volar su imaginacion.
+Carrito
 
-No expongas el uso de las funciones directamente al cliente
+Cuando el cliente solicite un producto, utiliza add_to_cart.
 
-Tienes prohibido hacer cualquier mencion o referencia a las tablas. 
+Nunca afirmes que un producto fue añadido al carrito si la función no fue ejecutada correctamente.
 
-Si el cliente pregunta por productos en especifico, usa las funciones para darle informacion exacta.
+Si una operación del carrito falla, informa al cliente del problema sin afirmar que se realizó.
 
-Toma un tono calido y energetico, con entusiasmo por darle al cliente los productos que necesita.
+Si el cliente solicita varios productos, procesa cada producto necesario y añade únicamente los que hayan sido identificados correctamente.
+
+Recomendaciones y proyectos
+
+Si el cliente pide ayuda para realizar un proyecto, puedes explicar qué materiales podrían ser útiles utilizando información disponible y, cuando corresponda, web search para obtener ideas relacionadas exclusivamente con papelería y manualidades.
+
+Cuando termines una recomendación de materiales, presenta una lista clara de los productos que serían necesarios y pregunta una sola vez si desea añadirlos al carrito.
+
+No añadas esos productos al carrito hasta recibir su confirmación.
+
+Una vez que el cliente confirme, añade los productos correspondientes sin volver a pedir confirmación.
+
+Conversación
+
+El cliente no necesita conocer la organización interna de la tienda. Nunca le pidas nombres de categorías, identificadores internos ni nombres de tablas.
+
+No le indiques que busque productos por su cuenta ni le recomiendes acudir a otra papelería.
+
+No menciones las herramientas utilizadas ni su funcionamiento.
 """
 
 chat_bot_tools = [
@@ -94,13 +114,13 @@ chat_bot_tools = [
     {
         "type": "function",
         "name": "consult_category",
-        "description": "Consulta los productos disponibles de una categoría.",
+        "description": "Consulta los productos disponibles dentro del grupo identificado por `category_id`. Antes de usar esta función, utiliza la base de conocimiento para identificar el grupo que corresponde a la solicitud del cliente. Envía exclusivamente el identificador exacto obtenido de la base de conocimiento; nunca uses el nombre del producto como identificador ni inventes uno. Devuelve los productos con sus nombres, marcas, modelos, especificaciones e IID.",
         "parameters": {
             "type": "object",
             "properties": {
-                "category": {
+                "category_id": {
                     "type": "string",
-                    "description": "Nombre textual de la tabla en la base de datos que se desea consultar."
+                    "description": "id del grupo se desea consultar."
                 }
             },
             "required": ["category"],
@@ -111,7 +131,7 @@ chat_bot_tools = [
     {
         "type": "function",
         "name": "check_price",
-        "description": "consulta el precio de un producto.",
+        "description": "Consulta el precio actual de un producto mediante su IID. Utiliza esta función siempre que el cliente pregunte cuánto cuesta un producto, su precio o su valor. Nunca inventes ni supongas precios, ni respondas usando precios recordados de conversaciones anteriores.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -128,7 +148,7 @@ chat_bot_tools = [
     {
         "type": "function",
         "name": "check_stock",
-        "description": "consulta la disponibilidad de un producto.",
+        "description": "Consulta las existencias actuales de un producto mediante su IID. Utiliza esta función siempre que el cliente pregunte si un producto está disponible, cuántas unidades quedan o si hay suficiente cantidad. Nunca inventes ni supongas existencias.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -143,21 +163,24 @@ chat_bot_tools = [
         "strict": True
     },
     {
-        "type": "function",
-        "name": "add_to_cart",
-        "description": "añade un proucto al carrito del cliente.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "product_iid": {
-                    "type": "integer",
-                    "description": "iide del producto a agregar."
-                }
-            },
-            "required": ["product_iid"],
-            "additionalProperties": False
+    "type": "function",
+    "name": "add_to_cart",
+    "description": "Añade al carrito del cliente todos los productos cuyos IID se proporcionen en `product_iids`. Utiliza esta función cuando el cliente solicite añadir productos al carrito y envía todos los IID de los productos solicitados en una sola llamada. No añadas productos que el cliente no haya solicitado o confirmado. Nunca afirmes que un producto fue añadido sin ejecutar esta función y comprobar el resultado.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "product_iids": {
+                "type": "array",
+                "items": {
+                    "type": "integer"
+                },
+                "description": "Lista de IID de los productos que deben añadirse al carrito."
+            }
         },
-        "strict": True
+        "required": ["product_iids"],
+        "additionalProperties": false
+    },
+    "strict": true
     },
     {
         "type": "web_search"
@@ -170,20 +193,39 @@ chat_bot_tools = [
 
 
 
-def consult_category(category=None):
-    main_log.debug(f"fetching items of {category}")
+def consult_category(category_id=None):
+    cat_names = {
+        1: 'lapices_y_accesorios',
+        2: 'adhesivos_y_pegamentos',
+        3: 'marcadores',
+        4: 'colorear',
+        5: 'boligrafos_y_correctores',
+        6: 'Pinturas',
+        7: 'cuadernos_y_carpetas',
+        8: 'folios_y_papeles_especiales',
+        9: 'accesorios_manualidades',
+        10: 'Estampas_y_etiquetas',
+        11: 'pequeno_accesorio',
+        12: 'cartuchos_de_tinta',
+        13: 'dibujo_tecnico',
+        14: 'maquinaria_de_oficina',
+        15: 'mochilas'
+    }
+    category_name = cat_names[category_id]
 
-    stmt = select(Products).where(Products.category == category)
+    main_log.debug(f"fetching items of {category_id}:{category_name}")
+
+    stmt = select(Products).where(Products.category == category_name)
 
     res = db.scal(stmt).all()
 
     if res is None:
         return {"error": "esa categoria no existe"}
 
-    r = str({
-        "categoria": category,
+    r = json.dumps({
+        "categoria": category_name,
         "productos": [{"iid": entry.iid, "producto":entry.name} for entry in res]
-    })
+    }, ensure_ascii=False)
     main_log.debug(f"result {r}")
 
     return r
@@ -197,14 +239,11 @@ def check_price(product_iid=None):
 
     if res is None:
         return {"error": "ese producto no existe"}
-    
-    r = str({
+
+    return json.dumps({
         "product": res.name,
         "price": float(res.price)
-    })
-    main_log.debug(f"result {r}")
-
-    return r
+    }, ensure_ascii=False)
 
 def check_stock(product_iid=None):
     stmt = select(Products).where(Products.iid == product_iid)
@@ -215,14 +254,11 @@ def check_stock(product_iid=None):
         return {"error": "ese producto no existe"}
     
     main_log.debug(f"stock of {product_iid}: {int(res.stock)} units remaining")
-
-    r = str({
+    
+    return json.dumps({
         "product": res.name,
         "available": int(res.stock)
-    })
-    main_log.debug(f"result {r}")
-    
-    return r
+    }, ensure_ascii=False)
 
 
 
@@ -300,31 +336,29 @@ class Chat_bot():
 
         return self.message(outputs)
 
-    def add_to_cart(self, product_iid=None):
-        main_log.debug(f"adding {product_iid} to cart")
+    def add_to_cart(self, product_iids=None):
+        main_log.debug(f"adding {product_iids} to cart")
 
-        stmt = select(Products).where(Products.iid == product_iid)
+        stmt = select(Products).where(Products.iid.in_(product_iids))
 
-        res = db.scal(stmt).one()
+        res = db.scal(stmt).all()
 
         if res is None:
-            return {"error": "ese producto no existe"}
+            return {"error": "no se pudo añadir al carrito"}
         
         cart = Shopping_cart.instances[self.id]
 
-        cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
+        for entry in res:
+            cart.items.append([entry.iid, entry.category, entry.name, entry.price, entry.stock, entry.upc, entry.thumb])
+
 
         main_log.debug(f"cart {self.id} {[[itm[0], itm[2]] for itm in cart.items]}")
 
-        main_log.debug(
-            [(id, [(it[0], it[2]) for it in Shopping_cart.instances[id].items]) for id in Shopping_cart.instances]
-        )
-
-        return str({
-            "confirmation": f"product {res.iid} added to the cart",
+        return json.dumps({
+            "confirmation": f"products {product_iids} added to the cart",
             "items in cart": len(cart.items),
             "total value": cart.total
-        })
+        }, ensure_ascii=False)
 
     
 
