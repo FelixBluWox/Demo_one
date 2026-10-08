@@ -123,7 +123,7 @@ chat_bot_tools = [
                     "description": "id del grupo se desea consultar."
                 }
             },
-            "required": ["category"],
+            "required": ["category_id"],
             "additionalProperties": False
         },
         "strict": True
