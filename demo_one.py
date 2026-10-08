@@ -180,7 +180,7 @@ chat_bot_tools = [
         "required": ["product_iids"],
         "additionalProperties": False
     },
-    "strict": true
+    "strict": True
     },
     {
         "type": "web_search"
