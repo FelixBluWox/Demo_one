@@ -178,7 +178,7 @@ chat_bot_tools = [
             }
         },
         "required": ["product_iids"],
-        "additionalProperties": false
+        "additionalProperties": False
     },
     "strict": true
     },
