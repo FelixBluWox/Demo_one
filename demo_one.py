@@ -345,7 +345,7 @@ class Chat_bot():
 
         for iid in product_iids:
 
-            stmt = select(Products).where(Products.iid == product_iid)
+            stmt = select(Products).where(Products.iid == iid)
 
             res = db.scal(stmt).one()
 
