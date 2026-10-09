@@ -40,7 +40,7 @@ app.secret_key = getenv("flask_secret")
 
 
 agent_prompt = """
-Eres Rosa, la asistente virtual de una papelería.
+Tu nombre es Rosa, eres la asistente virtual de una papelería.
 
 Tu objetivo es ayudar al cliente a encontrar productos de la tienda, resolver dudas relacionadas con ellos y ayudarle a preparar su compra.
 
@@ -314,6 +314,8 @@ class Chat_bot():
             response = gpt_client.responses.create(
                 model="gpt-4o-mini",
                 conversation=self.conversation.id,
+                instructions=agent_prompt,
+                tools=chat_bot_tools,
                 input=input
             )
 
@@ -339,18 +341,18 @@ class Chat_bot():
     def add_to_cart(self, product_iids=None):
         main_log.debug(f"adding {product_iids} to cart")
 
-        stmt = select(Products).where(Products.iid.in_(product_iids))
-
-        res = db.scal(stmt).all()
-
-        if res is None:
-            return {"error": "no se pudo añadir al carrito"}
-        
         cart = Shopping_cart.instances[self.id]
 
-        for entry in res:
-            cart.items.append([entry.iid, entry.category, entry.name, entry.price, entry.stock, entry.upc, entry.thumb])
+        for iid in product_iids:
 
+            stmt = select(Products).where(Products.iid == product_iid)
+
+            res = db.scal(stmt).one()
+
+            if res is None:
+                continue
+
+            cart.items.append([res.iid, res.category, res.name, res.price, res.stock, res.upc, res.thumb])
 
         main_log.debug(f"cart {self.id} {[[itm[0], itm[2]] for itm in cart.items]}")
 
@@ -360,6 +362,7 @@ class Chat_bot():
             "total value": cart.total
         }, ensure_ascii=False)
 
+        
     
 
 
